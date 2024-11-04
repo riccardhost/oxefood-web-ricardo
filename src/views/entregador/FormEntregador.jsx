@@ -4,6 +4,36 @@ import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 
 export default function FormEntregador () {
 
+    const ufOptions = [
+        { key: 'AC', value: 'AC', text: 'Acre' },
+        { key: 'AL', value: 'AL', text: 'Alagoas' },
+        { key: 'AP', value: 'AP', text: 'Amapá' },
+        { key: 'AM', value: 'AM', text: 'Amazonas' },
+        { key: 'BA', value: 'BA', text: 'Bahia' },
+        { key: 'CE', value: 'CE', text: 'Ceará' },
+        { key: 'DF', value: 'DF', text: 'Distrito Federal' },
+        { key: 'ES', value: 'ES', text: 'Espírito Santo' },
+        { key: 'GO', value: 'GO', text: 'Goiás' },
+        { key: 'MA', value: 'MA', text: 'Maranhão' },
+        { key: 'MT', value: 'MT', text: 'Mato Grosso' },
+        { key: 'MS', value: 'MS', text: 'Mato Grosso do Sul' },
+        { key: 'MG', value: 'MG', text: 'Minas Gerais' },
+        { key: 'PA', value: 'PA', text: 'Pará' },
+        { key: 'PB', value: 'PB', text: 'Paraíba' },
+        { key: 'PR', value: 'PR', text: 'Paraná' },
+        { key: 'PE', value: 'PE', text: 'Pernambuco' },
+        { key: 'PI', value: 'PI', text: 'Piauí' },
+        { key: 'RJ', value: 'RJ', text: 'Rio de Janeiro' },
+        { key: 'RN', value: 'RN', text: 'Rio Grande do Norte' },
+        { key: 'RS', value: 'RS', text: 'Rio Grande do Sul' },
+        { key: 'RO', value: 'RO', text: 'Rondônia' },
+        { key: 'RR', value: 'RR', text: 'Roraima' },
+        { key: 'SC', value: 'SC', text: 'Santa Catarina' },
+        { key: 'SP', value: 'SP', text: 'São Paulo' },
+        { key: 'SE', value: 'SE', text: 'Sergipe' },
+        { key: 'TO', value: 'TO', text: 'Tocantins' },
+    ];
+
     return (
 
         <div>
@@ -19,7 +49,7 @@ export default function FormEntregador () {
                     <div style={{marginTop: '4%'}}>
 
                         <Form>
-                          
+                        
                             <Form.Group widths='equal'>
 
                                 <Form.Input
@@ -57,7 +87,7 @@ export default function FormEntregador () {
                                 <Form.Input
                                     fluid
                                     label='Data de Nascimento'
-                                    width={6}
+                                    width={4}
                                 >
                                     <InputMask 
                                         mask="99/99/9999" 
@@ -69,7 +99,7 @@ export default function FormEntregador () {
                                 <Form.Input
                                     fluid
                                     label='Fone Celular'
-                                    width={6}>
+                                    width={5}>
                                     <InputMask 
                                         mask="(99) 99999.9999"
                                     /> 
@@ -78,29 +108,122 @@ export default function FormEntregador () {
                                 <Form.Input
                                     fluid
                                     label='Fone Fixo'
-                                    width={6}>
+                                    width={5}>
                                     <InputMask 
                                         mask="(99) 9999.9999"
                                     /> 
                                 </Form.Input>
 
+                                <Form.Input
+                                    fluid
+                                    label='Quantidade de Entregas'
+                                    width={4}>
+                                </Form.Input>
 
-
-
-
-
-
-
-
-
-
+                                <Form.Input
+                                    fluid
+                                    label='Valor por Frete'
+                                    width={4}>
+                                </Form.Input>
 
                             </Form.Group>
 
+                            <Form.Group widths='equal'>
+
+                                <Form.Input
+                                    fluid
+                                    label='Endereço'
+                                    placeholder="Informe o nome da rua!">
+                                </Form.Input>
+                                
+                                <Form.Input
+                                    fluid
+                                    label='Número'
+                                    width={4}>
+                                </Form.Input>
+
+                            </Form.Group>
+
+                            <Form.Group widths='equal'>
+
+                                <Form.Input
+                                    fluid
+                                    label='Bairro'
+                                    placeholder="Informe o nome do bairro!">
+                                </Form.Input>
+                                
+                                <Form.Input
+                                    fluid
+                                    label='Cidade'
+                                    placeholder="Informe o nome da cidade!">
+                                </Form.Input>
+
+                                <Form.Input
+                                    required
+                                    fluid
+                                    label='CEP'
+                                    width={6}>
+                                    <InputMask
+                                        required
+                                        maskChar={null}
+                                        placeholder="Ex: 00000-000"
+                                        mask="99999-999"
+                                    />
+                                </Form.Input>
+
+                            </Form.Group>
+
+                            <Form.Group widths='equal'>
+
+                                <Form.Select
+                                    fluid
+                                    label='UF'
+                                    placeholder='Selecione'
+                                    options={ufOptions}
+                                  
+                                />
+                            
+
+                            </Form.Group>
+
+                            <Form.Group widths='equal'>
+
+                                <Form.Input
+                                    fluid
+                                    label='Complemento'
+                                    placeholder="Informe o complemento!"
+                                >
+
+                                </Form.Input>
+
+                            </Form.Group>
+                            
+                            <Form.Group>
+                            
+                                    <Form.Field>
+                                        <label>Ativo: </label>
+                                    </Form.Field>
+
+                                    <Form.Field>
+                                        <Form.Radio
+                                        label='Sim'
+                                        value='sim'
+                                        />
+
+                                    </Form.Field>
+                               
+                                    <Form.Field>
+                                        <Form.Radio
+                                        label='Não'
+                                        value='nao'
+                                        />
+
+                                    </Form.Field>
+
+                            </Form.Group>
 
                         </Form>
 
-                        
                         <div style={{marginTop: '4%'}}>
 
                             <Button
@@ -138,3 +261,4 @@ export default function FormEntregador () {
     );
 
 }
+

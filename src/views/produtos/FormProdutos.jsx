@@ -1,5 +1,4 @@
 import React from "react";
-import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 
 export default function FormProdutos () {
@@ -44,10 +43,13 @@ export default function FormProdutos () {
                             
                                 <Form.Input
                                     fluid
-                                    label='Descrição do Produto'
-                                    maxLength="100"
-                                    placeholder="Informe a descrição código do produto!"
-                                />
+                                    label='Descrição do Produto'>
+                                    <textarea
+                                    id="texto"
+                                    rows="20"
+                                    cols="50"
+                                    placeholder="Informe a descrição completa do produto!"/>
+                                </Form.Input>
 
                             </Form.Group>
 
@@ -65,8 +67,8 @@ export default function FormProdutos () {
                                     fluid
                                     label='Tempo de Mínimo Entrega (Em minutos)'
                                     maxLength="10"
-                                    placeholder="30"                        
-                                >
+                                    placeholder="30"
+                                > 
                                 </Form.Input>
 
                                 <Form.Input
@@ -94,7 +96,7 @@ export default function FormProdutos () {
                                 <Icon name='reply' />
                                 Voltar
                             </Button>
-                                
+
                             <Button
                                 inverted
                                 circular
