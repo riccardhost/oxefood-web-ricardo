@@ -1,4 +1,4 @@
-
+import axios from "axios";
 import React, { useState } from "react";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
@@ -53,6 +53,36 @@ export default function FormEntregador() {
     ];
     
     const handleAtivoChange = (e, { value }) => setAtivo(value);
+
+    function salvar() {
+
+		let entregadorRequest = {
+		     nomeCompleto: nomeCompleto,
+		     cpf: cpf,
+             rg: rg,
+		     dataNascimento: dataNascimento,
+		     foneCelular: foneCelular,
+		     foneFixo: foneFixo,
+             quantidadeEntregas: quantidadeEntregas,
+             valorFrete: valorFrete,
+             endereco: endereco,
+             numero: numero,
+             bairro: bairro,
+             cidade: cidade,
+             cep: cep,
+             uf: uf,
+             complemento: complemento,
+             ativo: ativo
+		}
+	
+		axios.post("http://localhost:8080/api/entregador", entregadorRequest)
+		.then((response) => {
+		     console.log('Cliente cadastrado com sucesso!')
+		})
+		.catch((error) => {
+		     console.log('Erro ao incluir o um cliente!')
+		})
+	}
 
     return (
 
@@ -120,8 +150,6 @@ export default function FormEntregador() {
                                 <Form.Input
                                     fluid
                                     label='Data de Nascimento'
-                                    value={dataNascimento}
-                                    onChange={e => setDataNascimento(e.target.value)}
                                     width={4}
                                 >
                                     <InputMask
@@ -136,8 +164,6 @@ export default function FormEntregador() {
                                 <Form.Input
                                     fluid
                                     label='Fone Celular'
-                                    value={foneCelular}
-                                    onChange={e => setFoneCelular(e.target.value)}
                                     width={5}
                                 >
                                     <InputMask
@@ -150,8 +176,6 @@ export default function FormEntregador() {
                                 <Form.Input
                                     fluid
                                     label='Fone Fixo'
-                                    value={foneFixo}
-                                    onChange={e => setFoneFixo(e.target.value)}
                                     width={5}
                                 >
                                     <InputMask
@@ -221,8 +245,6 @@ export default function FormEntregador() {
                                     required
                                     fluid
                                     label='CEP'
-                                    value={cep}
-                                    onChange={e => setCep(e.target.value)}
                                     width={6}
                                 >
                                     <InputMask
@@ -319,6 +341,7 @@ export default function FormEntregador() {
                                     labelPosition='left'
                                     color='blue'
                                     floated='right'
+                                    onClick={() => salvar()}
                                 >
                                     <Icon name='save' />
                                     Salvar
