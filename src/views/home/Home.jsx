@@ -1,43 +1,48 @@
 import React from "react";
 import { Container, Grid, Image } from 'semantic-ui-react';
+import MenuSistema from '../../MenuSistema';
 
-export default function Home () {
+export default function Home() {
 
-   return(
-       <div>
+    return (
 
-           <div style={{marginTop: '5%'}}>
+        <div>
 
-               <Container>
+            <MenuSistema tela={'/'} />
 
-                   <Grid columns={2} divided>
+            <div style={{ marginTop: '5%' }}>
 
-                       <Grid.Row>
+                <Container>
 
-                           <Grid.Column>
-                               <Image src='/logo-IFPE.png' size='large' />
-                           </Grid.Column>
+                    <Grid columns={2} divided>
 
-                           <Grid.Column>
-                              
-                               <br/><br/>
-                               Bem vindo ao Sistema <strong>OxeFood</strong> ! <br/><br/>
-                               Este sistema foi desenvolvido na disciplina de <strong>Desenvolvimento para WEB III</strong>. <br/> <br/>
-                               
-                               Para acessar o código da <strong>API</strong> do Sistema, acesse: <br/><br/><a href='https://github.com/riccardhost/oxefood-api-ricardo' target='_blank'> https://github.com/riccardhost/oxefood-api </a> <br/><br/>
+                        <Grid.Row>
 
-                               Para acessar o Código do <strong>Módulo WEB</strong>, acesse: <br/><br/><a href='https://github.com/riccardhost/oxefood-web-ricardo' target='_blank'> https://github.com/riccardhost/oxefood-web </a>
+                            <Grid.Column>
+                                <Image src='/logo-IFPE.png' size='large' />
+                            </Grid.Column>
 
-                           </Grid.Column>
+                            <Grid.Column>
 
-                       </Grid.Row>
+                                <br /><br />
+                                Bem vindo ao Sistema <strong>OxeFood</strong>! <br /><br />
+                                Este sistema foi desenvolvido na disciplina de <strong>Desenvolvimento para WEB III</strong>. <br /> <br />
 
-                   </Grid>
+                                Para acessar o código da <strong>API</strong> do Sistema, acesse: <br /><br /><a href='https://github.com/riccardhost/oxefood-api-ricardo' target='_blank'> https://github.com/riccardhost/oxefood-api </a> <br /><br />
 
-               </Container>
+                                Para acessar o Código do <strong>Módulo WEB</strong>, acesse: <br /><br /><a href='https://github.com/riccardhost/oxefood-web-ricardo' target='_blank'> https://github.com/riccardhost/oxefood-web </a>
 
-           </div>
+                            </Grid.Column>
 
-       </div>
-   )
+                        </Grid.Row>
+
+                    </Grid>
+
+                </Container>
+
+            </div>
+
+        </div>
+
+    )
 }

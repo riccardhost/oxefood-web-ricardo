@@ -2,16 +2,18 @@ import axios from "axios";
 import React, { useState } from "react";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
+import MenuSistema from '../../MenuSistema';
+import { Link } from "react-router-dom";
 
 export default function FormEntregador() {
 
-    const [nomeCompleto, setNomeCompleto] = useState('');
+    const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
     const [rg, setRg] = useState('');
     const [dataNascimento, setDataNascimento] = useState('');
     const [foneCelular, setFoneCelular] = useState('');
     const [foneFixo, setFoneFixo] = useState('');
-    const [quantidadeEntregas, setQuantidadeEntregas] = useState('');
+    const [quantidadeEntrega, setQuantidadeEntrega] = useState('');
     const [valorFrete, setValorFrete] = useState('');
     const [endereco, setEndereco] = useState('');
     const [numero, setNumero] = useState('');
@@ -20,7 +22,7 @@ export default function FormEntregador() {
     const [cep, setCep] = useState('');
     const [uf, setUf] = useState('');
     const [complemento, setComplemento] = useState('');
-    const [ativo, setAtivo] = useState('nao'); // "Ativo" controla os botões de rádio "Sim" ou "Não"
+    const [ativo, setAtivo] = useState('nao'); //Controla o Estado NÃO ou SIM no Formulário do Entregador
 
     const ufOptions = [
         { key: 'AC', value: 'AC', text: 'Acre' },
@@ -51,42 +53,44 @@ export default function FormEntregador() {
         { key: 'SE', value: 'SE', text: 'Sergipe' },
         { key: 'TO', value: 'TO', text: 'Tocantins' },
     ];
-    
+
     const handleAtivoChange = (e, { value }) => setAtivo(value);
 
     function salvar() {
 
-		let entregadorRequest = {
-		     nomeCompleto: nomeCompleto,
-		     cpf: cpf,
-             rg: rg,
-		     dataNascimento: dataNascimento,
-		     foneCelular: foneCelular,
-		     foneFixo: foneFixo,
-             quantidadeEntregas: quantidadeEntregas,
-             valorFrete: valorFrete,
-             endereco: endereco,
-             numero: numero,
-             bairro: bairro,
-             cidade: cidade,
-             cep: cep,
-             uf: uf,
-             complemento: complemento,
-             ativo: ativo
-		}
-	
-		axios.post("http://localhost:8080/api/entregador", entregadorRequest)
-		.then((response) => {
-		     console.log('Cliente cadastrado com sucesso!')
-		})
-		.catch((error) => {
-		     console.log('Erro ao incluir o um cliente!')
-		})
-	}
+        let entregadorRequest = {
+            nome: nome,
+            cpf: cpf,
+            rg: rg,
+            dataNascimento: dataNascimento,
+            foneCelular: foneCelular,
+            foneFixo: foneFixo,
+            quantidadeEntrega: quantidadeEntrega,
+            valorFrete: valorFrete,
+            endereco: endereco,
+            numero: numero,
+            bairro: bairro,
+            cidade: cidade,
+            cep: cep,
+            uf: uf,
+            complemento: complemento,
+            ativo: ativo
+        }
+
+        axios.post("http://localhost:8080/api/entregador", entregadorRequest)
+            .then((response) => {
+                console.log('Entregador cadastrado com sucesso!')
+            })
+            .catch((error) => {
+                console.log('Erro ao incluir o entregador!')
+            })
+    }
 
     return (
 
         <div>
+
+            <MenuSistema tela={'entregador'} />
 
             <div style={{ marginTop: '3%' }}>
 
@@ -112,8 +116,8 @@ export default function FormEntregador() {
                                     required
                                     fluid
                                     label='Nome Completo'
-                                    value={nomeCompleto}
-                                    onChange={e => setNomeCompleto(e.target.value)}
+                                    value={nome}
+                                    onChange={e => setNome(e.target.value)}
                                     maxLength="250"
                                     placeholder="Informe o nome completo!"
                                 />
@@ -122,8 +126,6 @@ export default function FormEntregador() {
                                     required
                                     fluid
                                     label='CPF'
-                                    value={cpf}
-                                    onChange={e => setCpf(e.target.value)}
                                     width={5}
                                 >
                                     <InputMask
@@ -188,8 +190,8 @@ export default function FormEntregador() {
                                 <Form.Input
                                     fluid
                                     label='Quantidade de Entregas'
-                                    value={quantidadeEntregas}
-                                    onChange={e => setQuantidadeEntregas(e.target.value)}
+                                    value={quantidadeEntrega}
+                                    onChange={e => setQuantidadeEntrega(e.target.value)}
                                     width={4}
                                 />
 
@@ -202,7 +204,7 @@ export default function FormEntregador() {
                                 />
 
                             </Form.Group>
-                                                       
+
                             <Form.Group widths='equal'>
 
                                 <Form.Input
@@ -228,31 +230,30 @@ export default function FormEntregador() {
                                 <Form.Input
                                     fluid
                                     label='Bairro'
+                                    placeholder="Informe o nome do bairro!"
                                     value={bairro}
                                     onChange={e => setBairro(e.target.value)}
-                                    placeholder="Informe o nome do bairro!"
                                 />
 
                                 <Form.Input
                                     fluid
                                     label='Cidade'
+                                    placeholder="Informe o nome da cidade!"
+                                    width={6}
                                     value={cidade}
                                     onChange={e => setCidade(e.target.value)}
-                                    placeholder="Informe o nome da cidade!"
                                 />
 
                                 <Form.Input
-                                    required
                                     fluid
                                     label='CEP'
+                                    placeholder="Ex: 00000-000"
                                     width={6}
                                 >
                                     <InputMask
                                         mask="99999-999"
                                         value={cep}
                                         onChange={e => setCep(e.target.value)}
-                                        maskChar={null}
-                                        placeholder="Ex: 00000-000"
                                     />
 
                                 </Form.Input>
@@ -323,14 +324,16 @@ export default function FormEntregador() {
                             <div style={{ marginTop: '4%' }}>
 
                                 <Button
+                                    as={Link}
+                                    to="/list-entregador"
                                     type="button"
                                     inverted
                                     circular
                                     icon
-                                    labelPosition='left'
-                                    color='orange'
+                                    labelPosition="left"
+                                    color="orange"
                                 >
-                                    <Icon name='reply' />
+                                    <Icon name="reply" />
                                     Voltar
                                 </Button>
 

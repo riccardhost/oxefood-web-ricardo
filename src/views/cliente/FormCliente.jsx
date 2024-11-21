@@ -2,47 +2,51 @@ import axios from "axios";
 import React, { useState } from "react";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
+import MenuSistema from '../../MenuSistema';
+import { Link } from "react-router-dom";
 
-export default function FormCliente () {
+export default function FormCliente() {
 
     const [nome, setNome] = useState();
     const [cpf, setCpf] = useState();
     const [foneCelular, setFoneCelular] = useState();
     const [foneFixo, setFoneFixo] = useState();
     const [dataNascimento, setDataNascimento] = useState();
- 
+
     function salvar() {
 
-		let clienteRequest = {
-		     nome: nome,
-		     cpf: cpf,
-		     dataNascimento: dataNascimento,
-		     foneCelular: foneCelular,
-		     foneFixo: foneFixo
-		}
-	
-		axios.post("http://localhost:8080/api/cliente", clienteRequest)
-		.then((response) => {
-		     console.log('Cliente cadastrado com sucesso!')
-		})
-		.catch((error) => {
-		     console.log('Erro ao incluir o um cliente!')
-		})
-	}
+        let clienteRequest = {
+            nome: nome,
+            cpf: cpf,
+            dataNascimento: dataNascimento,
+            foneCelular: foneCelular,
+            foneFixo: foneFixo
+        }
+
+        axios.post("http://localhost:8080/api/cliente", clienteRequest)
+            .then((response) => {
+                console.log('Cliente cadastrado com sucesso!')
+            })
+            .catch((error) => {
+                console.log('Erro ao incluir o cliente!')
+            })
+    }
 
     return (
 
         <div>
 
-            <div style={{marginTop: '3%'}}>
+            <MenuSistema tela={'cliente'} />
+
+            <div style={{ marginTop: '3%' }}>
 
                 <Container textAlign='justified' >
 
-                    <h2> <span style={{color: 'darkgray'}}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
+                    <h2> <span style={{ color: 'darkgray' }}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
 
                     <Divider />
 
-                    <div style={{marginTop: '4%'}}>
+                    <div style={{ marginTop: '4%' }}>
 
                         <Form>
 
@@ -55,7 +59,7 @@ export default function FormCliente () {
                                     maxLength="100"
                                     placeholder="Informe o nome completo!"
                                     value={nome}
-			                        onChange={e => setNome(e.target.value)}
+                                    onChange={e => setNome(e.target.value)}
                                 />
 
                                 <Form.Input
@@ -66,24 +70,24 @@ export default function FormCliente () {
                                         required
                                         mask="999.999.999-99"
                                         value={cpf}
-				                        onChange={e => setCpf(e.target.value)}
-                                    /> 
+                                        onChange={e => setCpf(e.target.value)}
+                                    />
 
                                 </Form.Input>
 
                             </Form.Group>
-                            
+
                             <Form.Group>
 
                                 <Form.Input
                                     fluid
                                     label='Fone Celular'
                                     width={6}>
-                                    <InputMask 
+                                    <InputMask
                                         mask="(99) 99999-9999"
                                         value={foneCelular}
-			                            onChange={e => setFoneCelular(e.target.value)}
-                                    /> 
+                                        onChange={e => setFoneCelular(e.target.value)}
+                                    />
 
                                 </Form.Input>
 
@@ -91,11 +95,11 @@ export default function FormCliente () {
                                     fluid
                                     label='Fone Fixo'
                                     width={6}>
-                                    <InputMask 
+                                    <InputMask
                                         mask="(99) 9999-9999"
                                         value={foneFixo}
-			                            onChange={e => setFoneFixo(e.target.value)}
-                                    /> 
+                                        onChange={e => setFoneFixo(e.target.value)}
+                                    />
 
                                 </Form.Input>
 
@@ -104,34 +108,36 @@ export default function FormCliente () {
                                     label='Data Nascimento'
                                     width={6}
                                 >
-                                    <InputMask 
-                                        mask="99/99/9999" 
+                                    <InputMask
+                                        mask="99/99/9999"
                                         maskChar={null}
                                         placeholder="Ex: 20/03/1985"
                                         value={dataNascimento}
-			                            onChange={e => setDataNascimento(e.target.value)}
-                                    /> 
+                                        onChange={e => setDataNascimento(e.target.value)}
+                                    />
 
                                 </Form.Input>
 
                             </Form.Group>
-                        
+
                         </Form>
-                        
-                        <div style={{marginTop: '4%'}}>
+
+                        <div style={{ marginTop: '4%' }}>
 
                             <Button
+                                as={Link}
+                                to="/list-cliente"
                                 type="button"
                                 inverted
                                 circular
                                 icon
-                                labelPosition='left'
-                                color='orange'
+                                labelPosition="left"
+                                color="orange"
                             >
-                                <Icon name='reply' />
+                                <Icon name="reply" />
                                 Voltar
                             </Button>
-                                
+
                             <Button
                                 inverted
                                 circular
@@ -148,7 +154,7 @@ export default function FormCliente () {
                         </div>
 
                     </div>
-                    
+
                 </Container>
             </div>
         </div>
