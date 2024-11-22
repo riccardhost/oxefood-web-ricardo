@@ -10,7 +10,7 @@ export default function Home() {
 
             <MenuSistema tela={'/'} />
 
-            <div style={{ marginTop: '5%' }}>
+            <div style={{ marginTop: '16%' }}>
 
                 <Container>
 
@@ -19,19 +19,20 @@ export default function Home() {
                         <Grid.Row>
 
                             <Grid.Column>
-                                <Image src='/logo-IFPE.png' size='large' />
+                                <br /><br />
+                                <Image src='/logo-IFPE.png' size='large' centered />
                             </Grid.Column>
 
                             <Grid.Column>
 
-                                <br /><br />
+                                <br />
                                 Bem vindo ao Sistema <strong>OxeFood</strong>! <br /><br />
                                 Este sistema foi desenvolvido na disciplina de <strong>Desenvolvimento para WEB III</strong>. <br /> <br />
 
                                 Para acessar o código da <strong>API</strong> do Sistema, acesse: <br /><br /><a href='https://github.com/riccardhost/oxefood-api-ricardo' target='_blank'> https://github.com/riccardhost/oxefood-api </a> <br /><br />
 
                                 Para acessar o Código do <strong>Módulo WEB</strong>, acesse: <br /><br /><a href='https://github.com/riccardhost/oxefood-web-ricardo' target='_blank'> https://github.com/riccardhost/oxefood-web </a>
-
+                                <br /><br />
                             </Grid.Column>
 
                         </Grid.Row>

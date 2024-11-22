@@ -10,7 +10,7 @@ function App() {
 
       <Rotas />
 
-      <div style={{ marginTop: '6%' }}>
+      <div style={{ marginTop: '15%' }}>
         <Segment vertical color='grey' size='tiny' textAlign='center'>
           &copy; 2024 - Projeto WEB III - IFPE Jaboatão dos Guararapes
         </Segment>
