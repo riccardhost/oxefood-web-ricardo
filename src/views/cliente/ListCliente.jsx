@@ -41,6 +41,7 @@ export default function ListCliente() {
                 <Container textAlign='justified' >
 
                     <h2> Cliente </h2>
+
                     <Divider />
 
                     <div style={{ marginTop: '4%' }}>
@@ -87,8 +88,11 @@ export default function ListCliente() {
                                                 color='green'
                                                 title='Clique aqui para editar os dados deste cliente'
                                                 icon>
-                                                <Icon name='edit' />
-                                            </Button> &nbsp;
+                                                <Link to="/form-cliente" state={{ id: cliente.id }} style={{ color: 'green' }}> <Icon name='edit' /> </Link>
+                                            </Button>
+
+                                            &nbsp;
+
                                             <Button
                                                 inverted
                                                 circular
