@@ -7,6 +7,9 @@ import { Link, useLocation } from "react-router-dom";
 
 export default function FormEntregador() {
 
+    const { state } = useLocation();
+    const [idEntregador, setIdEntregador] = useState();
+    
     const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
     const [rg, setRg] = useState('');
@@ -23,6 +26,34 @@ export default function FormEntregador() {
     const [uf, setUf] = useState('');
     const [complemento, setComplemento] = useState('');
     const [ativo, setAtivo] = useState('nao'); //Controla o Estado NÃO ou SIM no Formulário do Entregador
+    
+    useEffect(() => {
+
+        if (state != null && state.id != null) {
+
+            axios.get("http://localhost:8080/api/entregador/" + state.id)
+            .then((response) => {
+                setIdEntregador(response.data.id)
+                setNome(response.data.nome)
+                setCpf(response.data.cpf)
+                setRg(response.data.rg)
+                setDataNascimento(response.data.dataNascimento)
+                setFoneCelular(response.data.foneCelular)
+                setFoneFixo(response.data.foneFixo)
+                setQuantidadeEntrega(response.data.quantidadeEntrega)
+                setValorFrete(response.data.valorFrete)
+                setEndereco(response.data.endereco)
+                setNumero(response.data.numero)
+                setBairro(response.data.bairro)
+                setCidade(response.data.cidade)
+                setCep(response.data.cep)
+                setUf(response.data.uf)
+                setComplemento(response.data.complemento)
+                setAtivo(response.data.ativo)
+            })
+        }
+
+    }, [state])
 
     const ufOptions = [
         { key: 'AC', value: 'AC', text: 'Acre' },
@@ -55,7 +86,7 @@ export default function FormEntregador() {
     ];
 
     const handleAtivoChange = (e, { value }) => setAtivo(value);
-
+ 
     function salvar() {
 
         let entregadorRequest = {

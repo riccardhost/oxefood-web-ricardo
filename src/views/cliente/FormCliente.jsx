@@ -29,8 +29,7 @@ export default function FormCliente() {
                     setFoneCelular(response.data.foneCelular)
                     setFoneFixo(response.data.foneFixo)
                 })
-
-        }
+            }
 
     }, [state])
 
