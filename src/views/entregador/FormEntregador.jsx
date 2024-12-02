@@ -9,7 +9,7 @@ export default function FormEntregador() {
 
     const { state } = useLocation();
     const [idEntregador, setIdEntregador] = useState();
-    
+
     const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
     const [rg, setRg] = useState('');
@@ -25,32 +25,32 @@ export default function FormEntregador() {
     const [cep, setCep] = useState('');
     const [uf, setUf] = useState('');
     const [complemento, setComplemento] = useState('');
-    const [ativo, setAtivo] = useState('nao'); //Controla o Estado NÃO ou SIM no Formulário do Entregador
-    
+    const [ativo, setAtivo] = useState(true); //Controla o Estado NÃO ou SIM no Formulário do Entregador
+
     useEffect(() => {
 
         if (state != null && state.id != null) {
 
             axios.get("http://localhost:8080/api/entregador/" + state.id)
-            .then((response) => {
-                setIdEntregador(response.data.id)
-                setNome(response.data.nome)
-                setCpf(response.data.cpf)
-                setRg(response.data.rg)
-                setDataNascimento(response.data.dataNascimento)
-                setFoneCelular(response.data.foneCelular)
-                setFoneFixo(response.data.foneFixo)
-                setQuantidadeEntrega(response.data.quantidadeEntrega)
-                setValorFrete(response.data.valorFrete)
-                setEndereco(response.data.endereco)
-                setNumero(response.data.numero)
-                setBairro(response.data.bairro)
-                setCidade(response.data.cidade)
-                setCep(response.data.cep)
-                setUf(response.data.uf)
-                setComplemento(response.data.complemento)
-                setAtivo(response.data.ativo)
-            })
+                .then((response) => {
+                    setIdEntregador(response.data.id)
+                    setNome(response.data.nome)
+                    setCpf(response.data.cpf)
+                    setRg(response.data.rg)
+                    setDataNascimento(response.data.dataNascimento)
+                    setFoneCelular(response.data.foneCelular)
+                    setFoneFixo(response.data.foneFixo)
+                    setQuantidadeEntrega(response.data.quantidadeEntrega)
+                    setValorFrete(response.data.valorFrete)
+                    setEndereco(response.data.endereco)
+                    setNumero(response.data.numero)
+                    setBairro(response.data.bairro)
+                    setCidade(response.data.cidade)
+                    setCep(response.data.cep)
+                    setUf(response.data.uf)
+                    setComplemento(response.data.complemento)
+                    setAtivo(response.data.ativo)
+                })
         }
 
     }, [state])
@@ -86,7 +86,7 @@ export default function FormEntregador() {
     ];
 
     const handleAtivoChange = (e, { value }) => setAtivo(value);
- 
+
     function salvar() {
 
         let entregadorRequest = {
@@ -108,13 +108,27 @@ export default function FormEntregador() {
             ativo: ativo
         }
 
-        axios.post("http://localhost:8080/api/entregador", entregadorRequest)
-            .then((response) => {
-                console.log('Entregador cadastrado com sucesso!')
-            })
-            .catch((error) => {
-                console.log('Erro ao incluir o entregador!')
-            })
+        if (idEntregador != null) { //Alteração:
+            axios.put("http://localhost:8080/api/entregador/" + idEntregador, entregadorRequest)
+
+                .then((response) => {
+                    console.log('Entregador alterado com sucesso!')
+                })
+                .catch((error) => {
+                    console.log('Erro ao alterar o Entregador!')
+                })
+
+        } else { //Cadastro:
+            axios.post("http://localhost:8080/api/entregador", entregadorRequest)
+
+                .then((response) => {
+                    console.log('Entregador cadastrado com sucesso!')
+                })
+                .catch((error) => {
+                    console.log('Erro ao incluir o entregador!')
+                })
+        }
+
     }
 
     return (
@@ -330,8 +344,8 @@ export default function FormEntregador() {
 
                                     <Form.Radio
                                         label='Sim'
-                                        value='sim'
-                                        checked={ativo === 'sim'}
+                                        value={true}
+                                        checked={ativo === true}
                                         onChange={handleAtivoChange}
                                     />
 
@@ -341,8 +355,8 @@ export default function FormEntregador() {
 
                                     <Form.Radio
                                         label='Não'
-                                        value='nao'
-                                        checked={ativo === 'nao'}
+                                        value={false}
+                                        checked={ativo === false}
                                         onChange={handleAtivoChange}
                                     />
 

@@ -22,16 +22,6 @@ export default function ListEntregador() {
             })
     }
 
-    function formatarData(dataParam) {
-
-        if (dataParam === null || dataParam === '' || dataParam === undefined) {
-            return ''
-        }
-
-        let arrayData = dataParam.split('-');
-        return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
-    }
-
     function confirmaRemover(id) {
         setOpenModal(true)
         setIdRemover(id)
@@ -40,19 +30,29 @@ export default function ListEntregador() {
     async function remover() {
 
         await axios.delete('http://localhost:8080/api/entregador/' + idRemover)
-        .then((response) => {
-  
-            console.log('Entregador removido com sucesso!')
-  
-            axios.get("http://localhost:8080/api/entregador")
             .then((response) => {
-                setLista(response.data)
+
+                console.log('Entregador removido com sucesso!')
+
+                axios.get("http://localhost:8080/api/entregador")
+                    .then((response) => {
+                        setLista(response.data)
+                    })
             })
-        })
-        .catch((error) => {
-            console.log('Erro ao remover o entregador!')
-        })
+            .catch((error) => {
+                console.log('Erro ao remover o entregador!')
+            })
         setOpenModal(false)
+    }
+
+    function formatarData(dataParam) {
+
+        if (dataParam === null || dataParam === '' || dataParam === undefined) {
+            return ''
+        }
+
+        let arrayData = dataParam.split('-');
+        return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
     }
 
     return (
@@ -85,22 +85,12 @@ export default function ListEntregador() {
                         <Table color='orange' sortable celled>
 
                             <Table.Header>
-                                <Table.Row>
+                                <Table.Row textAlign='center'>
                                     <Table.HeaderCell>Nome Completo</Table.HeaderCell>
                                     <Table.HeaderCell>CPF</Table.HeaderCell>
                                     <Table.HeaderCell>RG</Table.HeaderCell>
                                     <Table.HeaderCell>Data de Nascimento</Table.HeaderCell>
                                     <Table.HeaderCell>Fone Celular</Table.HeaderCell>
-                                    <Table.HeaderCell>Fone Fixo</Table.HeaderCell>
-                                    <Table.HeaderCell>Quantidade <br />de Entregas</Table.HeaderCell>
-                                    <Table.HeaderCell>Valor por Frete</Table.HeaderCell>
-                                    <Table.HeaderCell>Endereço</Table.HeaderCell>
-                                    <Table.HeaderCell>Número</Table.HeaderCell>
-                                    <Table.HeaderCell>Bairro</Table.HeaderCell>
-                                    <Table.HeaderCell>Cidade</Table.HeaderCell>
-                                    <Table.HeaderCell>CEP</Table.HeaderCell>
-                                    <Table.HeaderCell>UF</Table.HeaderCell>
-                                    <Table.HeaderCell>Complemento</Table.HeaderCell>
                                     <Table.HeaderCell>Ativo</Table.HeaderCell>
                                     <Table.HeaderCell textAlign='center'>Ações</Table.HeaderCell>
                                 </Table.Row>
@@ -116,17 +106,7 @@ export default function ListEntregador() {
                                         <Table.Cell>{entregador.rg}</Table.Cell>
                                         <Table.Cell>{formatarData(entregador.dataNascimento)}</Table.Cell>
                                         <Table.Cell>{entregador.foneCelular}</Table.Cell>
-                                        <Table.Cell>{entregador.foneFixo}</Table.Cell>
-                                        <Table.Cell>{entregador.quantidadeEntrega}</Table.Cell>
-                                        <Table.Cell>{entregador.valorFrete}</Table.Cell>
-                                        <Table.Cell>{entregador.endereco}</Table.Cell>
-                                        <Table.Cell>{entregador.numero}</Table.Cell>
-                                        <Table.Cell>{entregador.bairro}</Table.Cell>
-                                        <Table.Cell>{entregador.cidade}</Table.Cell>
-                                        <Table.Cell>{entregador.cep}</Table.Cell>
-                                        <Table.Cell>{entregador.uf}</Table.Cell>
-                                        <Table.Cell>{entregador.complemento}</Table.Cell>
-                                        <Table.Cell>{entregador.ativo}</Table.Cell>
+                                        <Table.Cell>{entregador.ativo ? 'Ativo' : 'Inativo'}</Table.Cell>
                                         <Table.Cell textAlign='center'>
 
                                             <Button
@@ -135,19 +115,17 @@ export default function ListEntregador() {
                                                 color='green'
                                                 title='Clique aqui para editar os dados deste entregador'
                                                 icon>
-                                                <Link to="/form-entregador" state={{ id: entregador.id }} style={{ color: 'green' }}> <Icon name='edit' /> </Link>
+                                                <Link to="/form-entregador" state={{ id: entregador.id }} style={{ color: 'green' }}> <Icon name='edit' /></Link>
                                             </Button> &nbsp;
-
-                                            <br />
 
                                             <Button
                                                 inverted
                                                 circular
-                                                color='red'
-                                                title='Clique aqui para remover este entregador'
+                                                color='blue'
+                                                title='Clique aqui para visualizar mais informações sobre o entregador'
                                                 icon
                                                 onClick={e => confirmaRemover(entregador.id)}>
-                                                <Icon name='trash' />
+                                                <Icon name='eye' />
                                             </Button>
 
                                         </Table.Cell>
@@ -161,25 +139,93 @@ export default function ListEntregador() {
             </div>
 
             <Modal
-               basic
-               onClose={() => setOpenModal(false)}
-               onOpen={() => setOpenModal(true)}
-               open={openModal}
+                basic
+                onClose={() => setOpenModal(false)}
+                onOpen={() => setOpenModal(true)}
+                open={openModal}
             >
-               <Header icon>
-                   <Icon name='trash' />
-                   <div style={{marginTop: '5%'}}> Tem certeza que deseja remover esse registro? </div>
-               </Header>
-               <Modal.Actions>
-                   <Button basic color='red' inverted onClick={() => setOpenModal(false)}>
-                       <Icon name='remove' /> Não
-                   </Button>
-                   <Button color='green' inverted onClick={() => remover()}>
-                       <Icon name='checkmark' /> Sim
-                   </Button>
-               </Modal.Actions>
+
+                <Header icon>
+                    <Icon name='eye' />
+                    <div style={{ marginTop: '5%' }}> Deseja remover algum registro? </div>
+                </Header>
+
+                <Table color='orange' sortable celled>
+
+                    <Table.Header>
+                        <Table.Row textAlign='center'>
+                            <Table.HeaderCell>Nome Completo</Table.HeaderCell>
+                            <Table.HeaderCell>CPF</Table.HeaderCell>
+                            <Table.HeaderCell>RG</Table.HeaderCell>
+                            <Table.HeaderCell>Data de Nascimento</Table.HeaderCell>
+                            <Table.HeaderCell>Fone Celular</Table.HeaderCell>
+                            <Table.HeaderCell>Fone Fixo</Table.HeaderCell>
+                            <Table.HeaderCell>Quantidade <br />de Entregas</Table.HeaderCell>
+                            <Table.HeaderCell>Valor por Frete</Table.HeaderCell>
+                            <Table.HeaderCell>Endereço</Table.HeaderCell>
+                            <Table.HeaderCell>Número</Table.HeaderCell>
+                            <Table.HeaderCell>Bairro</Table.HeaderCell>
+                            <Table.HeaderCell>Cidade</Table.HeaderCell>
+                            <Table.HeaderCell>CEP</Table.HeaderCell>
+                            <Table.HeaderCell>UF</Table.HeaderCell>
+                            <Table.HeaderCell>Complemento</Table.HeaderCell>
+                            <Table.HeaderCell>Ativo</Table.HeaderCell>
+                            <Table.HeaderCell textAlign='center'>Ações</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+
+                    <Table.Body>
+
+                        {lista.map(entregador => (
+
+                            <Table.Row key={entregador.id}>
+                                <Table.Cell>{entregador.nome}</Table.Cell>
+                                <Table.Cell>{entregador.cpf}</Table.Cell>
+                                <Table.Cell>{entregador.rg}</Table.Cell>
+                                <Table.Cell>{formatarData(entregador.dataNascimento)}</Table.Cell>
+                                <Table.Cell>{entregador.foneCelular}</Table.Cell>
+                                <Table.Cell>{entregador.foneFixo}</Table.Cell>
+                                <Table.Cell>{entregador.quantidadeEntrega}</Table.Cell>
+                                <Table.Cell>{entregador.valorFrete}</Table.Cell>
+                                <Table.Cell>{entregador.endereco}</Table.Cell>
+                                <Table.Cell>{entregador.numero}</Table.Cell>
+                                <Table.Cell>{entregador.bairro}</Table.Cell>
+                                <Table.Cell>{entregador.cidade}</Table.Cell>
+                                <Table.Cell>{entregador.cep}</Table.Cell>
+                                <Table.Cell>{entregador.uf}</Table.Cell>
+                                <Table.Cell>{entregador.complemento}</Table.Cell>
+                                <Table.Cell>{entregador.ativo ? 'Ativo' : 'Inativo'}</Table.Cell>
+                                <Table.Cell textAlign='center'>
+
+                                    <Button
+                                        inverted
+                                        circular
+                                        color='green'
+                                        title='Clique aqui para editar os dados deste entregador'
+                                        icon>
+                                        <Link to="/form-entregador" state={{ id: entregador.id }} style={{ color: 'green' }}> <Icon name='edit' /></Link>
+                                    </Button> &nbsp;
+                                    <br />
+                                    <Button
+                                        inverted
+                                        circular
+                                        color='red'
+                                        title='Clique aqui para remover este entregador'
+                                        icon
+                                        onClick={e => remover(entregador.id)}>
+                                        <Icon name='trash' />
+                                    </Button>
+
+                                </Table.Cell>
+                            </Table.Row>
+                        ))}
+
+                    </Table.Body>
+                </Table>
+
             </Modal>
 
         </div>
+
     )
 }
