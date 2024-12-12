@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
-import MenuSistema from '../../MenuSistema';
 import { Link, useLocation } from "react-router-dom";
+import MenuSistema from '../../MenuSistema';
 
 export default function FormEntregador() {
 
@@ -110,25 +110,53 @@ export default function FormEntregador() {
 
         if (idEntregador != null) { //Alteração:
             axios.put("http://localhost:8080/api/entregador/" + idEntregador, entregadorRequest)
-
                 .then((response) => {
+                    const dataNascimento = response.data.dataNascimento; // A data já vem no formato dd/mm/yyyy
+                    setIdEntregador(response.data.id);
+                    setNome(response.data.nome);
+                    setCpf(response.data.cpf);
+                    setRg(response.data.rg);
+                    setDataNascimento(dataNascimento);
+                    setFoneCelular(response.data.foneCelular);
+                    setFoneFixo(response.data.foneFixo);
+                    setQuantidadeEntrega(response.data.quantidadeEntrega);
+                    setValorFrete(response.data.valorFrete);
+                    setEndereco(response.data.endereco);
+                    setNumero(response.data.numero);
+                    setBairro(response.data.bairro);
+                    setCidade(response.data.cidade);
+                    setCep(response.data.cep);
+                    setUf(response.data.uf);
+                    setComplemento(response.data.complemento);
+                    setAtivo(response.data.ativo);
+
                     console.log('Entregador alterado com sucesso!')
                 })
                 .catch((error) => {
-                    console.log('Erro ao alterar o Entregador!')
+                    console.log('Erro ao alterar o Entregador!', error)
                 })
 
         } else { //Cadastro:
             axios.post("http://localhost:8080/api/entregador", entregadorRequest)
 
                 .then((response) => {
-                    console.log('Entregador cadastrado com sucesso!')
+                    console.log('Entregador cadastrado com sucesso!', response)
                 })
                 .catch((error) => {
-                    console.log('Erro ao incluir o entregador!')
+                    console.log('Erro ao incluir o entregador!', error)
                 })
         }
 
+    }
+
+    function formatarData(dataParam) {
+
+        if (dataParam === null || dataParam === '' || dataParam === undefined) {
+            return ''
+        }
+
+        let arrayData = dataParam.split('-');
+        return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
     }
 
     return (
@@ -141,13 +169,12 @@ export default function FormEntregador() {
 
                 <Container textAlign='justified'>
 
-                    <h2>
-
-                        <span style={{ color: 'darkgray' }}>
-                            Entregador &nbsp;<Icon name='angle double right' size="small" />{" "}
-                        </span> Cadastro
-
-                    </h2>
+                    {idEntregador === undefined &&
+                        <h2> <span style={{ color: 'darkgray' }}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
+                    }
+                    {idEntregador !== undefined &&
+                        <h2> <span style={{ color: 'darkgray' }}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
+                    }
 
                     <Divider />
 
@@ -202,10 +229,11 @@ export default function FormEntregador() {
                                     <InputMask
                                         mask="99/99/9999"
                                         maskChar={null}
-                                        value={dataNascimento}
+                                        value={formatarData(dataNascimento)}
                                         onChange={e => setDataNascimento(e.target.value)}
                                         placeholder="Ex: 20/03/1985"
                                     />
+
                                 </Form.Input>
 
                                 <Form.Input

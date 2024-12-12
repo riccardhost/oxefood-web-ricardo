@@ -1,10 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Container, Divider, Icon, Table, Modal, Header } from 'semantic-ui-react';
+import { Button, Container, Divider, Icon, Table, Header, Modal } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
-export default function ListVendas() {
+export default function ListCategoriaProduto() {
 
     const [lista, setLista] = useState([]);
     const [openModal, setOpenModal] = useState(false);
@@ -16,7 +16,7 @@ export default function ListVendas() {
 
     function carregarLista() {
 
-        axios.get("http://localhost:8080/api/vendas")
+        axios.get("http://localhost:8080/api/categoriaProduto")
             .then((response) => {
                 setLista(response.data)
             })
@@ -29,44 +29,34 @@ export default function ListVendas() {
 
     async function remover() {
 
-        await axios.delete('http://localhost:8080/api/vendas/' + idRemover)
+        await axios.delete('http://localhost:8080/api/categoriaProduto/' + idRemover)
             .then((response) => {
 
-                console.log('Venda removida com sucesso!', response)
+                console.log('Categoria de Produto removido com sucesso!', response)
 
-                axios.get("http://localhost:8080/api/vendas")
+                axios.get("http://localhost:8080/api/categoriaProduto")
                     .then((response) => {
                         setLista(response.data)
                     })
             })
             .catch((error) => {
-                console.log('Erro ao remover a venda!', error)
+                console.log('Erro ao remover a Categoria de Produto!', error)
             })
         setOpenModal(false)
-    }
-
-    function formatarData(dataParam) {
-
-        if (dataParam === null || dataParam === '' || dataParam === undefined) {
-            return ''
-        }
-
-        let arrayData = dataParam.split('-');
-        return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
     }
 
     return (
 
         <div>
 
-            <MenuSistema tela={'vendas'} />
+            <MenuSistema tela={'categoriaProduto'} />
 
             <div style={{ marginTop: '3%' }}>
 
                 <Container textAlign='justified' >
 
-                    <h2> Vendas </h2>
-                    
+                    <h2> Categoria de Produto </h2>
+
                     <Divider />
 
                     <div style={{ marginTop: '4%' }}>
@@ -77,7 +67,7 @@ export default function ListVendas() {
                             icon='clipboard outline'
                             floated='right'
                             as={Link}
-                            to='/form-vendas'
+                            to='/form-categoriaProduto'
                         />
 
                         <br /><br /><br />
@@ -85,39 +75,29 @@ export default function ListVendas() {
                         <Table color='orange' sortable celled>
 
                             <Table.Header>
+
                                 <Table.Row textAlign='center'>
-                                    <Table.HeaderCell>Cliente</Table.HeaderCell>
-                                    <Table.HeaderCell>Produto</Table.HeaderCell>
-                                    <Table.HeaderCell>Status do Produto</Table.HeaderCell>
-                                    <Table.HeaderCell>Data da Venda</Table.HeaderCell>
-                                    <Table.HeaderCell>Valor Total</Table.HeaderCell>
-                                    <Table.HeaderCell>Observação</Table.HeaderCell>
-                                    <Table.HeaderCell>Retirada em Loja</Table.HeaderCell>
+                                    <Table.HeaderCell>Descrição</Table.HeaderCell>
                                     <Table.HeaderCell textAlign='center'>Ações</Table.HeaderCell>
                                 </Table.Row>
+
                             </Table.Header>
 
                             <Table.Body>
 
-                                {lista.map(vendas => (
+                                {lista.map(categoriaProduto => (
 
-                                    <Table.Row key={vendas.id}>
-                                        <Table.Cell>{vendas.cliente}</Table.Cell>
-                                        <Table.Cell>{vendas.produto}</Table.Cell>
-                                        <Table.Cell>{vendas.statusVenda}</Table.Cell>
-                                        <Table.Cell>{formatarData(vendas.dataVenda)}</Table.Cell>
-                                        <Table.Cell>{vendas.valorTotal}</Table.Cell>
-                                        <Table.Cell>{vendas.observacao}</Table.Cell>
-                                        <Table.Cell>{vendas.retiradaEmLoja ? 'Sim' : 'Não'}</Table.Cell>
+                                    <Table.Row key={categoriaProduto.id}>
+                                        <Table.Cell style={{ paddingRight: '50rem' }}>{categoriaProduto.descricao}</Table.Cell>
                                         <Table.Cell textAlign='center'>
 
                                             <Button
                                                 inverted
                                                 circular
                                                 color='green'
-                                                title='Clique aqui para editar os dados desta venda'
+                                                title='Clique aqui para editar os dados desta cagetoria!'
                                                 icon>
-                                                <Link to="/form-vendas" state={{ id: vendas.id }} style={{ color: 'green' }}> <Icon name='edit' /> </Link>
+                                                <Link to="/form-categoriaProduto" state={{ id: categoriaProduto.id }} style={{ color: 'green' }}> <Icon name='edit' /> </Link>
                                             </Button>
 
                                             &nbsp;
@@ -126,9 +106,9 @@ export default function ListVendas() {
                                                 inverted
                                                 circular
                                                 color='red'
-                                                title='Clique aqui para remover esta venda'
+                                                title='Clique aqui para remover esta Categoria de Produto?'
                                                 icon
-                                                onClick={e => confirmaRemover(vendas.id)}>
+                                                onClick={e => confirmaRemover(categoriaProduto.id)}>
                                                 <Icon name='trash' />
                                             </Button>
 
@@ -148,7 +128,6 @@ export default function ListVendas() {
                 onOpen={() => setOpenModal(true)}
                 open={openModal}
             >
-
                 <Header icon>
                     <Icon name='trash' />
                     <div style={{ marginTop: '5%' }}> Tem certeza que deseja remover esse registro? </div>
@@ -169,5 +148,6 @@ export default function ListVendas() {
             </Modal>
 
         </div>
+
     )
 }

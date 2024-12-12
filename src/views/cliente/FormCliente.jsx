@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
-import MenuSistema from '../../MenuSistema';
 import { Link, useLocation } from "react-router-dom";
+import MenuSistema from '../../MenuSistema';
 
 export default function FormCliente() {
 
@@ -45,22 +45,29 @@ export default function FormCliente() {
 
         if (idCliente != null) { //Alteração:
             axios.put("http://localhost:8080/api/cliente/" + idCliente, clienteRequest)
-
                 .then((response) => {
+                    const dataNascimento = response.data.dataNascimento; // A data já vem no formato dd/mm/yyyy
+                    setIdCliente(response.data.id);
+                    setNome(response.data.nome);
+                    setCpf(response.data.cpf);
+                    setDataNascimento(dataNascimento);  // A data não precisa de modificação
+                    setFoneCelular(response.data.foneCelular);
+                    setFoneFixo(response.data.foneFixo);
+
                     console.log('Cliente alterado com sucesso!')
                 })
                 .catch((error) => {
-                    console.log('Erro ao alterar o cliente!')
+                    console.log('Erro ao alterar o cliente!', error)
                 })
 
         } else { //Cadastro:
             axios.post("http://localhost:8080/api/cliente", clienteRequest)
 
                 .then((response) => {
-                    console.log('Cliente cadastrado com sucesso!')
+                    console.log('Cliente cadastrado com sucesso!', response)
                 })
                 .catch((error) => {
-                    console.log('Erro ao incluir o cliente!')
+                    console.log('Erro ao incluir o cliente!', error)
                 })
         }
     }
@@ -153,15 +160,15 @@ export default function FormCliente() {
 
                                 <Form.Input
                                     fluid
-                                    label='Data Nascimento'
+                                    label='Data de Nascimento'
                                     width={6}
                                 >
                                     <InputMask
                                         mask="99/99/9999"
                                         maskChar={null}
-                                        placeholder="Ex: 20/03/1985"
                                         value={formatarData(dataNascimento)}
                                         onChange={e => setDataNascimento(e.target.value)}
+                                        placeholder="Ex: 20/03/1985"
                                     />
 
                                 </Form.Input>
@@ -169,6 +176,8 @@ export default function FormCliente() {
                             </Form.Group>
 
                         </Form>
+
+                        {/* Botões */}
 
                         <div style={{ marginTop: '4%' }}>
 
@@ -206,7 +215,7 @@ export default function FormCliente() {
                 </Container>
 
             </div>
-            
+
         </div>
 
     );

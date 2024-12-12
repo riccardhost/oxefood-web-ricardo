@@ -30,18 +30,18 @@ export default function ListProduto() {
     async function remover() {
 
         await axios.delete('http://localhost:8080/api/produto/' + idRemover)
-        .then((response) => {
-  
-            console.log('Produto removido com sucesso!')
-  
-            axios.get("http://localhost:8080/api/produto")
             .then((response) => {
-                setLista(response.data)
+
+                console.log('Produto removido com sucesso!')
+
+                axios.get("http://localhost:8080/api/produto")
+                    .then((response) => {
+                        setLista(response.data)
+                    })
             })
-        })
-        .catch((error) => {
-            console.log('Erro ao remover o produto!')
-        })
+            .catch((error) => {
+                console.log('Erro ao remover o produto!')
+            })
         setOpenModal(false)
     }
 
@@ -75,13 +75,14 @@ export default function ListProduto() {
 
                             <Table.Header>
                                 <Table.Row textAlign='center'>
-                                    <Table.HeaderCell>Titulo</Table.HeaderCell>
-                                    <Table.HeaderCell>Código do Produto</Table.HeaderCell>
+                                    <Table.HeaderCell style={{ padding: '5rem' }}>Titulo</Table.HeaderCell>
+                                    <Table.HeaderCell>Código <br />do <br />Produto</Table.HeaderCell>
                                     <Table.HeaderCell>Descrição</Table.HeaderCell>
+                                    <Table.HeaderCell>Categoria de Produto</Table.HeaderCell>
                                     <Table.HeaderCell>Valor Unitário</Table.HeaderCell>
-                                    <Table.HeaderCell>Tempo de Entrega Mínimo <br />(Em minutos) </Table.HeaderCell>
-                                    <Table.HeaderCell>Tempo de Entrega Máximo <br />(Em minutos) </Table.HeaderCell>
-                                    <Table.HeaderCell textAlign='center'>Ações</Table.HeaderCell>
+                                    <Table.HeaderCell>Tempo Mínimo <br />de Entrega <br />(Em minutos) </Table.HeaderCell>
+                                    <Table.HeaderCell>Tempo Máximo<br />de Entrega  <br />(Em minutos) </Table.HeaderCell>
+                                    <Table.HeaderCell textAlign='center' style={{ padding: '3rem' }}>Ações</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
 
@@ -91,8 +92,9 @@ export default function ListProduto() {
 
                                     <Table.Row key={produto.id}>
                                         <Table.Cell>{produto.titulo}</Table.Cell>
-                                        <Table.Cell>{produto.codigoProduto}</Table.Cell>
+                                        <Table.Cell>{produto.codigo}</Table.Cell>
                                         <Table.Cell>{produto.descricao}</Table.Cell>
+                                        <Table.Cell>{produto.categoriaProduto.descricao}</Table.Cell>
                                         <Table.Cell>{produto.valorUnitario}</Table.Cell>
                                         <Table.Cell>{produto.tempoMinEntrega}</Table.Cell>
                                         <Table.Cell>{produto.tempoMaxEntrega}</Table.Cell>
@@ -105,8 +107,8 @@ export default function ListProduto() {
                                                 title='Clique aqui para editar os dados deste produto'
                                                 icon>
                                                 <Link to="/form-produto" state={{ id: produto.id }} style={{ color: 'green' }}> <Icon name='edit' /> </Link>
-                                            </Button> 
-                                         
+                                            </Button>
+
                                             &nbsp;
 
                                             <Button
@@ -130,23 +132,28 @@ export default function ListProduto() {
             </div>
 
             <Modal
-               basic
-               onClose={() => setOpenModal(false)}
-               onOpen={() => setOpenModal(true)}
-               open={openModal}
+                basic
+                onClose={() => setOpenModal(false)}
+                onOpen={() => setOpenModal(true)}
+                open={openModal}
             >
-               <Header icon>
-                   <Icon name='trash' />
-                   <div style={{marginTop: '5%'}}> Tem certeza que deseja remover esse registro? </div>
-               </Header>
-               <Modal.Actions>
-                   <Button basic color='red' inverted onClick={() => setOpenModal(false)}>
-                       <Icon name='remove' /> Não
-                   </Button>
-                   <Button color='green' inverted onClick={() => remover()}>
-                       <Icon name='checkmark' /> Sim
-                   </Button>
-               </Modal.Actions>
+                <Header icon>
+                    <Icon name='trash' />
+                    <div style={{ marginTop: '5%' }}> Tem certeza que deseja remover esse registro? </div>
+                </Header>
+
+                <Modal.Actions>
+
+                    <Button basic color='red' inverted onClick={() => setOpenModal(false)}>
+                        <Icon name='remove' /> Não
+                    </Button>
+
+                    <Button color='green' inverted onClick={() => remover()}>
+                        <Icon name='checkmark' /> Sim
+                    </Button>
+
+                </Modal.Actions>
+
             </Modal>
 
         </div>

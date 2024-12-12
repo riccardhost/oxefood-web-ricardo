@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
-import MenuSistema from '../../MenuSistema';
 import { Link, useLocation } from "react-router-dom";
+import MenuSistema from '../../MenuSistema';
 
 export default function FormVendas() {
 
@@ -38,10 +38,10 @@ export default function FormVendas() {
     }, [state])
 
     const ufOptions = [
-        { key: '1', value: '1', text: 'Pedido Cancelado' },
-        { key: '2', value: '2', text: 'Aguardando Pagamento' },
-        { key: '3', value: '3', text: 'Pago' },
-        { key: '4', value: '4', text: 'Entregue' },
+        { key: 'Pedido Cancelado', value: 'Pedido Cancelado', text: 'Pedido Cancelado' },
+        { key: 'Aguardando Pagamento', value: 'Aguardando Pagamento', text: 'Aguardando Pagamento' },
+        { key: 'Pago', value: 'Pago', text: 'Pago' },
+        { key: 'Entregue', value: 'Entregue', text: 'Entregue' },
     ];
 
     const handleAtivoChange = (e, { value }) => setRetiradaEmLoja(value);
@@ -60,22 +60,31 @@ export default function FormVendas() {
 
         if (idVendas != null) { //Alteração:
             axios.put("http://localhost:8080/api/vendas/" + idVendas, vendasRequest)
-
                 .then((response) => {
+                    const dataVenda = response.data.dataVenda; // A data já vem no formato dd/mm/yyyy
+                    setIdVendas(response.data.id);
+                    setCliente(response.data.cliente);
+                    setProduto(response.data.produto);
+                    setStatusVenda(response.data.statusVenda);
+                    setDataVenda(dataVenda);
+                    setValorTotal(response.data.valorTotal);
+                    setObservacao(response.data.observacao);
+                    setRetiradaEmLoja(response.data.retiradaEmLoja);
+
                     console.log('Venda alterado com sucesso!')
                 })
                 .catch((error) => {
-                    console.log('Erro ao alterar a venda!')
+                    console.log('Erro ao alterar a venda!', error)
                 })
 
         } else { //Cadastro:
             axios.post("http://localhost:8080/api/vendas", vendasRequest)
 
                 .then((response) => {
-                    console.log('Venda cadastrado com sucesso!')
+                    console.log('Venda cadastrado com sucesso!', response)
                 })
                 .catch((error) => {
-                    console.log('Erro ao incluir a venda!')
+                    console.log('Erro ao incluir a venda!', error)
                 })
         }
     }

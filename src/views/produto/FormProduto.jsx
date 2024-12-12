@@ -1,36 +1,68 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
+import { Link, useLocation } from "react-router-dom";
 import MenuSistema from '../../MenuSistema';
-import { Link } from "react-router-dom";
 
 export default function FormProduto() {
 
+    const { state } = useLocation();
+    const [idProduto, setIdProduto] = useState();
+
     const [titulo, setTitulo] = useState();
-    const [codigoProduto, setCodigoProduto] = useState();
+    const [codigo, setCodigo] = useState();
     const [descricao, setDescricao] = useState();
+    const [idCategoriaProduto, setIdCategoriaProduto] = useState();
     const [valorUnitario, setValorUnitario] = useState();
     const [tempoMinEntrega, setTempoMinEntrega] = useState();
     const [tempoMaxEntrega, setTempoMaxEntrega] = useState();
+    const [listaCategoria, setListaCategoria] = useState([]);
+
+    useEffect(() => {
+
+        if (state != null && state.id != null) {
+            axios.get("http://localhost:8080/api/produto/" + state.id)
+                .then((response) => {
+                    setIdProduto(response.data.id)
+                    setTitulo(response.data.titulo)
+                    setCodigo(response.data.codigo)
+                    setDescricao(response.data.descricao)
+                    setIdCategoriaProduto(response.data.categoriaProduto.id)
+                    setValorUnitario(response.data.valorUnitario)
+                    setTempoMinEntrega(response.data.tempoMinEntrega)
+                    setTempoMaxEntrega(response.data.tempoMaxEntrega)
+                })
+        }
+
+        axios.get("http://localhost:8080/api/categoriaProduto")
+            .then((response) => {
+                const dropDownCategorias = response.data.map(c => ({ text: c.descricao, value: c.id }));
+                setListaCategoria(dropDownCategorias);
+            })
+
+    }, [state])
 
     function salvar() {
 
         let produtoRequest = {
+            setIdCategoriaProduto: setIdCategoriaProduto,
+            codigo: codigo,
             titulo: titulo,
-            codigoProduto: codigoProduto,
             descricao: descricao,
             valorUnitario: valorUnitario,
             tempoMinEntrega: tempoMinEntrega,
             tempoMaxEntrega: tempoMaxEntrega
         }
 
-        axios.post("http://localhost:8080/api/produto", produtoRequest)
-            .then((response) => {
-                console.log('Produto cadastrado com sucesso!')
-            })
-            .catch((error) => {
-                console.log('Erro ao incluir o produto!')
-            })
+        if (idProduto != null) { //Alteração:
+            axios.put("http://localhost:8080/api/produto/" + idProduto, produtoRequest)
+                .then((response) => { console.log('Produto alterado com sucesso.') })
+                .catch((error) => { console.log('Erro ao alterar um produto.') })
+        } else { //Cadastro:
+            axios.post("http://localhost:8080/api/produto", produtoRequest)
+                .then((response) => { console.log('Produto cadastrado com sucesso.') })
+                .catch((error) => { console.log('Erro ao incluir o produto.') })
+        }
     }
 
     return (
@@ -43,7 +75,12 @@ export default function FormProduto() {
 
                 <Container textAlign='justified' >
 
-                    <h2> <span style={{ color: 'darkgray' }}> Produto &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
+                    {idProduto === undefined &&
+                        <h2> <span style={{ color: 'darkgray' }}> Produto &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
+                    }
+                    {idProduto !== undefined &&
+                        <h2> <span style={{ color: 'darkgray' }}> Produto &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
+                    }
 
                     <Divider />
 
@@ -69,8 +106,25 @@ export default function FormProduto() {
                                     label='Código do Produto'
                                     maxLength="100"
                                     placeholder="Informe o código do produto!"
-                                    value={codigoProduto}
-                                    onChange={e => setCodigoProduto(e.target.value)}
+                                    value={codigo}
+                                    onChange={e => setCodigo(e.target.value)}
+                                />
+
+                            </Form.Group>
+
+                            <Form.Group widths='equal'>
+
+                                <Form.Select
+                                    required
+                                    fluid
+                                    tabIndex='3'
+                                    placeholder='Selecione'
+                                    label='Categoria de Produto'
+                                    options={listaCategoria}
+                                    value={idCategoriaProduto}
+                                    onChange={(e, { value }) => {
+                                        setIdCategoriaProduto(value)
+                                    }}
                                 />
 
                             </Form.Group>

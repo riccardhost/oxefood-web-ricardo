@@ -32,7 +32,7 @@ export default function ListEntregador() {
         await axios.delete('http://localhost:8080/api/entregador/' + idRemover)
             .then((response) => {
 
-                console.log('Entregador removido com sucesso!')
+                console.log('Entregador removido com sucesso!', response)
 
                 axios.get("http://localhost:8080/api/entregador")
                     .then((response) => {
@@ -40,7 +40,7 @@ export default function ListEntregador() {
                     })
             })
             .catch((error) => {
-                console.log('Erro ao remover o entregador!')
+                console.log('Erro ao remover o entregador!', error)
             })
         setOpenModal(false)
     }
