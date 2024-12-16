@@ -4,6 +4,7 @@ import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import { Link, useLocation } from "react-router-dom";
 import MenuSistema from '../../MenuSistema';
+import { notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormCliente() {
 
@@ -57,11 +58,17 @@ export default function FormCliente() {
             axios.post("http://localhost:8080/api/cliente", clienteRequest)
 
                 .then((response) => {
-                    console.log('Cliente cadastrado com sucesso!', response)
+                    notifySuccess('Cliente cadastrado com sucesso!', response)
                 })
                 .catch((error) => {
-                    console.log('Erro ao incluir o cliente!', error)
-                })
+                    if (error.response.data.errors !== undefined) {
+                        for (let i = 0; i < error.response.data.errors.length; i++) {
+                            notifyError(error.response.data.errors[i].defaultMessage)
+                        }
+                } else {
+                    notifyError(error.response.data.message)
+                }
+            })
         }
     }
 

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import { Link, useLocation } from "react-router-dom";
 import MenuSistema from '../../MenuSistema';
+import { notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormCategoriaProduto() {
 
@@ -45,11 +46,18 @@ export default function FormCategoriaProduto() {
             axios.post("http://localhost:8080/api/categoriaProduto", categoriaProdutoRequest)
 
                 .then((response) => {
-                    console.log('Categoria de Produto cadastrado com sucesso!', response)
+                    notifySuccess('Categoria de Produto cadastrado com sucesso!', response)
                 })
                 .catch((error) => {
-                    console.log('Erro ao incluir a Categoria de Produto!', error)
-                })
+                    if (error.response.data.errors !== undefined) {
+                        for (let i = 0; i < error.response.data.errors.length; i++) {
+                            notifyError(error.response.data.errors[i].defaultMessage)
+                     }
+                } else {
+                 notifyError(error.response.data.message)
+                }         
+            
+            })
         }
 
     }
