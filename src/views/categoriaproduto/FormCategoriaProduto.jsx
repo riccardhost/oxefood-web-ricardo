@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
-import MenuSistema from '../../MenuSistema';
 import { Link, useLocation } from "react-router-dom";
+import MenuSistema from '../../MenuSistema';
 
 export default function FormCategoriaProduto() {
 
@@ -13,7 +13,7 @@ export default function FormCategoriaProduto() {
 
     useEffect(() => {
 
-        if (state != null && state.id != null) {
+        if (state !== null && state.id !== null) {
 
             axios.get("http://localhost:8080/api/categoriaProduto/" + state.id)
                 .then((response) => {
@@ -35,20 +35,20 @@ export default function FormCategoriaProduto() {
             axios.put("http://localhost:8080/api/categoriaProduto/" + idCategoriaProduto, categoriaProdutoRequest)
 
                 .then((response) => {
-                    console.log('Categoria de Produto alterado com sucesso!')
+                    console.log('Categoria de Produto alterado com sucesso!', response)
                 })
                 .catch((error) => {
-                    console.log('Erro ao alterar a Categoria de Produto!')
+                    console.log('Erro ao alterar a Categoria de Produto!', error)
                 })
 
         } else { //Cadastro:
             axios.post("http://localhost:8080/api/categoriaProduto", categoriaProdutoRequest)
 
                 .then((response) => {
-                    console.log('Categoria de Produto cadastrado com sucesso!')
+                    console.log('Categoria de Produto cadastrado com sucesso!', response)
                 })
                 .catch((error) => {
-                    console.log('Erro ao incluir a Categoria de Produto!')
+                    console.log('Erro ao incluir a Categoria de Produto!', error)
                 })
         }
 

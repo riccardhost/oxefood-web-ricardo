@@ -5,10 +5,12 @@ import { Route, Routes } from "react-router-dom";
 import Home from './views/home/Home';
 import FormCliente from './views/cliente/FormCliente';
 import ListCliente from './views/cliente/ListCliente';
+import FormEnderecoCliente from './views/cliente/FormEnderecoCliente';
+import ListEnderecoCliente from './views/cliente/ListEnderecoCliente';
 import FormProduto from './views/produto/FormProduto';
 import ListProduto from './views/produto/ListProduto';
-import FormCategoriaProduto from './views/categoriaProduto/FormCategoriaProduto';
-import ListCategoriaProduto from './views/categoriaProduto/ListCategoriaProduto';
+import FormCategoriaProduto from './views/categoriaproduto/FormCategoriaProduto';
+import ListCategoriaProduto from './views/categoriaproduto/ListCategoriaProduto';
 import FormEntregador from './views/entregador/FormEntregador';
 import ListEntregador from './views/entregador/ListEntregador';
 import FormVendas from './views/vendas/FormVendas';
@@ -23,6 +25,8 @@ function Rotas() {
                 <Route path="/" element={<Home />} />
                 <Route path="form-cliente" element={<FormCliente />} />
                 <Route path="list-cliente" element={<ListCliente />} />
+                <Route path="form-enderecoCliente" element={<FormEnderecoCliente />} />
+                <Route path="list-enderecoCliente" element={<ListEnderecoCliente />} />
                 <Route path="form-produto" element={<FormProduto />} />
                 <Route path="list-produto" element={<ListProduto />} />
                 <Route path="form-categoriaProduto" element={<FormCategoriaProduto />} />

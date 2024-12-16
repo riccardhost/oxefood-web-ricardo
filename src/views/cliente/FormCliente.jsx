@@ -18,7 +18,7 @@ export default function FormCliente() {
 
     useEffect(() => {
 
-        if (state != null && state.id != null) {
+        if (state !== null && state.id !== null) {
 
             axios.get("http://localhost:8080/api/cliente/" + state.id)
                 .then((response) => {
@@ -36,6 +36,7 @@ export default function FormCliente() {
     function salvar() {
 
         let clienteRequest = {
+            idCliente: idCliente,
             nome: nome,
             cpf: cpf,
             dataNascimento: dataNascimento,
@@ -46,15 +47,7 @@ export default function FormCliente() {
         if (idCliente != null) { //Alteração:
             axios.put("http://localhost:8080/api/cliente/" + idCliente, clienteRequest)
                 .then((response) => {
-                    const dataNascimento = response.data.dataNascimento; // A data já vem no formato dd/mm/yyyy
-                    setIdCliente(response.data.id);
-                    setNome(response.data.nome);
-                    setCpf(response.data.cpf);
-                    setDataNascimento(dataNascimento);  // A data não precisa de modificação
-                    setFoneCelular(response.data.foneCelular);
-                    setFoneFixo(response.data.foneFixo);
-
-                    console.log('Cliente alterado com sucesso!')
+                    console.log('Cliente alterado com sucesso!', response)
                 })
                 .catch((error) => {
                     console.log('Erro ao alterar o cliente!', error)

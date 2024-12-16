@@ -31,8 +31,7 @@ export default function ListProduto() {
 
         await axios.delete('http://localhost:8080/api/produto/' + idRemover)
             .then((response) => {
-
-                console.log('Produto removido com sucesso!')
+                console.log('Produto removido com sucesso!', response)
 
                 axios.get("http://localhost:8080/api/produto")
                     .then((response) => {
@@ -40,7 +39,7 @@ export default function ListProduto() {
                     })
             })
             .catch((error) => {
-                console.log('Erro ao remover o produto!')
+                console.log('Erro ao remover o produto!', error)
             })
         setOpenModal(false)
     }
@@ -56,6 +55,7 @@ export default function ListProduto() {
                 <Container textAlign='justified' >
 
                     <h2> Produto </h2>
+
                     <Divider />
 
                     <div style={{ marginTop: '4%' }}>
@@ -75,10 +75,10 @@ export default function ListProduto() {
 
                             <Table.Header>
                                 <Table.Row textAlign='center'>
-                                    <Table.HeaderCell style={{ padding: '5rem' }}>Titulo</Table.HeaderCell>
-                                    <Table.HeaderCell>Código <br />do <br />Produto</Table.HeaderCell>
-                                    <Table.HeaderCell>Descrição</Table.HeaderCell>
+                                    <Table.HeaderCell>Código</Table.HeaderCell>
                                     <Table.HeaderCell>Categoria de Produto</Table.HeaderCell>
+                                    <Table.HeaderCell style={{ padding: '3rem' }}>Titulo</Table.HeaderCell>
+                                    <Table.HeaderCell>Descrição</Table.HeaderCell>
                                     <Table.HeaderCell>Valor Unitário</Table.HeaderCell>
                                     <Table.HeaderCell>Tempo Mínimo <br />de Entrega <br />(Em minutos) </Table.HeaderCell>
                                     <Table.HeaderCell>Tempo Máximo<br />de Entrega  <br />(Em minutos) </Table.HeaderCell>
@@ -91,10 +91,10 @@ export default function ListProduto() {
                                 {lista.map(produto => (
 
                                     <Table.Row key={produto.id}>
-                                        <Table.Cell>{produto.titulo}</Table.Cell>
                                         <Table.Cell>{produto.codigo}</Table.Cell>
-                                        <Table.Cell>{produto.descricao}</Table.Cell>
                                         <Table.Cell>{produto.categoriaProduto.descricao}</Table.Cell>
+                                        <Table.Cell>{produto.titulo}</Table.Cell>
+                                        <Table.Cell>{produto.descricao}</Table.Cell>
                                         <Table.Cell>{produto.valorUnitario}</Table.Cell>
                                         <Table.Cell>{produto.tempoMinEntrega}</Table.Cell>
                                         <Table.Cell>{produto.tempoMaxEntrega}</Table.Cell>

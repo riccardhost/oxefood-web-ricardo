@@ -29,7 +29,7 @@ export default function FormEntregador() {
 
     useEffect(() => {
 
-        if (state != null && state.id != null) {
+        if (state !== null && state.id !== null) {
 
             axios.get("http://localhost:8080/api/entregador/" + state.id)
                 .then((response) => {
@@ -111,26 +111,7 @@ export default function FormEntregador() {
         if (idEntregador != null) { //Alteração:
             axios.put("http://localhost:8080/api/entregador/" + idEntregador, entregadorRequest)
                 .then((response) => {
-                    const dataNascimento = response.data.dataNascimento; // A data já vem no formato dd/mm/yyyy
-                    setIdEntregador(response.data.id);
-                    setNome(response.data.nome);
-                    setCpf(response.data.cpf);
-                    setRg(response.data.rg);
-                    setDataNascimento(dataNascimento);
-                    setFoneCelular(response.data.foneCelular);
-                    setFoneFixo(response.data.foneFixo);
-                    setQuantidadeEntrega(response.data.quantidadeEntrega);
-                    setValorFrete(response.data.valorFrete);
-                    setEndereco(response.data.endereco);
-                    setNumero(response.data.numero);
-                    setBairro(response.data.bairro);
-                    setCidade(response.data.cidade);
-                    setCep(response.data.cep);
-                    setUf(response.data.uf);
-                    setComplemento(response.data.complemento);
-                    setAtivo(response.data.ativo);
-
-                    console.log('Entregador alterado com sucesso!')
+                    console.log('Entregador alterado com sucesso!', response)
                 })
                 .catch((error) => {
                     console.log('Erro ao alterar o Entregador!', error)
@@ -138,7 +119,6 @@ export default function FormEntregador() {
 
         } else { //Cadastro:
             axios.post("http://localhost:8080/api/entregador", entregadorRequest)
-
                 .then((response) => {
                     console.log('Entregador cadastrado com sucesso!', response)
                 })
@@ -364,8 +344,10 @@ export default function FormEntregador() {
 
                             <Form.Group>
 
-                                <Form.Field>
-                                    <label>Ativo: </label>
+                                <Form.Field
+                                    label='Ativo:'
+                                >
+
                                 </Form.Field>
 
                                 <Form.Field>

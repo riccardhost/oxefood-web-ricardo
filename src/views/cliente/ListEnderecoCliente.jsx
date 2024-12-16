@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Button, Container, Divider, Icon, Table, Header, Modal } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
-export default function ListCliente() {
+export default function ListEnderecoCliente() {
 
     const [lista, setLista] = useState([]);
     const [openModal, setOpenModal] = useState(false);
@@ -16,20 +16,10 @@ export default function ListCliente() {
 
     function carregarLista() {
 
-        axios.get("http://localhost:8080/api/cliente")
+        axios.get("http://localhost:8080/api/enderecocliente")
             .then((response) => {
                 setLista(response.data)
             })
-    }
-
-    function formatarData(dataParam) {
-
-        if (dataParam === null || dataParam === '' || dataParam === undefined) {
-            return ''
-        }
-
-        let arrayData = dataParam.split('-');
-        return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
     }
 
     function confirmaRemover(id) {
@@ -39,18 +29,18 @@ export default function ListCliente() {
 
     async function remover() {
 
-        await axios.delete('http://localhost:8080/api/cliente/' + idRemover)
+        await axios.delete('http://localhost:8080/api/enderecocliente/' + idRemover)
             .then((response) => {
 
-                console.log('Cliente removido com sucesso!', response)
+                console.log('Endereço removido com sucesso!', response)
 
-                axios.get("http://localhost:8080/api/cliente")
+                axios.get("http://localhost:8080/api/enderecocliente")
                     .then((response) => {
                         setLista(response.data)
                     })
             })
             .catch((error) => {
-                console.log('Erro ao remover um cliente!', error)
+                console.log('Erro ao remover o endereço!', error)
             })
         setOpenModal(false)
     }
@@ -59,13 +49,13 @@ export default function ListCliente() {
 
         <div>
 
-            <MenuSistema tela={'cliente'} />
+            <MenuSistema tela={'enderecocliente'} />
 
             <div style={{ marginTop: '3%' }}>
 
                 <Container textAlign='justified' >
 
-                    <h2> Cliente </h2>
+                    <h2> Endereço do Cliente </h2>
 
                     <Divider />
 
@@ -77,7 +67,7 @@ export default function ListCliente() {
                             icon='clipboard outline'
                             floated='right'
                             as={Link}
-                            to='/form-cliente'
+                            to='/form-enderecoCliente'
                         />
 
                         <br /><br /><br />
@@ -86,25 +76,30 @@ export default function ListCliente() {
 
                             <Table.Header>
                                 <Table.Row textAlign='center'>
-                                    <Table.HeaderCell>Nome</Table.HeaderCell>
-                                    <Table.HeaderCell>CPF</Table.HeaderCell>
-                                    <Table.HeaderCell>Data de Nascimento</Table.HeaderCell>
-                                    <Table.HeaderCell>Fone Celular</Table.HeaderCell>
-                                    <Table.HeaderCell>Fone Fixo</Table.HeaderCell>
+                                    <Table.HeaderCell>Cliente</Table.HeaderCell>
+                                    <Table.HeaderCell>Rua</Table.HeaderCell>
+                                    <Table.HeaderCell>Número</Table.HeaderCell>
+                                    <Table.HeaderCell>Bairro</Table.HeaderCell>
+                                    <Table.HeaderCell>Cidade</Table.HeaderCell>
+                                    <Table.HeaderCell>CEP</Table.HeaderCell>
+                                    <Table.HeaderCell>Estado</Table.HeaderCell>
+                                    <Table.HeaderCell>Complemento</Table.HeaderCell>
                                     <Table.HeaderCell textAlign='center'>Ações</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
 
                             <Table.Body>
 
-                                {lista.map(cliente => (
+                                {lista.map(enderecoCliente => (
 
-                                    <Table.Row key={cliente.id}>
-                                        <Table.Cell>{cliente.nome}</Table.Cell>
-                                        <Table.Cell>{cliente.cpf}</Table.Cell>
-                                        <Table.Cell>{formatarData(cliente.dataNascimento)}</Table.Cell>
-                                        <Table.Cell>{cliente.foneCelular}</Table.Cell>
-                                        <Table.Cell>{cliente.foneFixo}</Table.Cell>
+                                    <Table.Row key={enderecoCliente.id}>
+                                        <Table.Cell>{enderecoCliente.rua}</Table.Cell>
+                                        <Table.Cell>{enderecoCliente.numero}</Table.Cell>
+                                        <Table.Cell>{enderecoCliente.bairro}</Table.Cell>
+                                        <Table.Cell>{enderecoCliente.cidade}</Table.Cell>
+                                        <Table.Cell>{enderecoCliente.cep}</Table.Cell>
+                                        <Table.Cell>{enderecoCliente.estado}</Table.Cell>
+                                        <Table.Cell>{enderecoCliente.complemento}</Table.Cell>
                                         <Table.Cell textAlign='center'>
 
                                             <Button
@@ -113,7 +108,7 @@ export default function ListCliente() {
                                                 color='green'
                                                 title='Clique aqui para editar os dados deste cliente'
                                                 icon>
-                                                <Link to="/form-cliente" state={{ id: cliente.id }} style={{ color: 'green' }}> <Icon name='edit' /> </Link>
+                                                <Link to="/form-enderecoCliente" state={{ id: enderecoCliente.id }} style={{ color: 'green' }}> <Icon name='edit' /> </Link>
                                             </Button>
 
                                             &nbsp;
@@ -124,7 +119,7 @@ export default function ListCliente() {
                                                 color='grey'
                                                 title='Clique aqui para adicionar o endereço deste cliente'
                                                 icon>
-                                                <Link to="/form-enderecoCliente" state={{ id: cliente.id }} style={{ color: 'grey' }}> <Icon name='add' /> </Link>
+                                                <Link to="/form-enderecoCliente" style={{ color: 'grey' }}> <Icon name='add' /> </Link>
                                             </Button>
 
                                             &nbsp;
@@ -135,7 +130,7 @@ export default function ListCliente() {
                                                 color='red'
                                                 title='Clique aqui para remover este cliente'
                                                 icon
-                                                onClick={e => confirmaRemover(cliente.id)}>
+                                                onClick={e => confirmaRemover(enderecoCliente.id)}>
                                                 <Icon name='trash' />
                                             </Button>
 

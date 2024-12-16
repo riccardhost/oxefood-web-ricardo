@@ -20,7 +20,7 @@ export default function FormVendas() {
 
     useEffect(() => {
 
-        if (state != null && state.id != null) {
+        if (state !== null && state.id !== null) {
 
             axios.get("http://localhost:8080/api/vendas/" + state.id)
                 .then((response) => {
@@ -49,6 +49,7 @@ export default function FormVendas() {
     function salvar() {
 
         let vendasRequest = {
+            idVendas: idVendas,
             cliente: cliente,
             produto: produto,
             statusVenda: statusVenda,
@@ -61,17 +62,7 @@ export default function FormVendas() {
         if (idVendas != null) { //Alteração:
             axios.put("http://localhost:8080/api/vendas/" + idVendas, vendasRequest)
                 .then((response) => {
-                    const dataVenda = response.data.dataVenda; // A data já vem no formato dd/mm/yyyy
-                    setIdVendas(response.data.id);
-                    setCliente(response.data.cliente);
-                    setProduto(response.data.produto);
-                    setStatusVenda(response.data.statusVenda);
-                    setDataVenda(dataVenda);
-                    setValorTotal(response.data.valorTotal);
-                    setObservacao(response.data.observacao);
-                    setRetiradaEmLoja(response.data.retiradaEmLoja);
-
-                    console.log('Venda alterado com sucesso!')
+                    console.log('Venda alterado com sucesso!', response)
                 })
                 .catch((error) => {
                     console.log('Erro ao alterar a venda!', error)
@@ -92,7 +83,7 @@ export default function FormVendas() {
     function formatarData(dataParam) {
 
         if (dataParam === null || dataParam === '' || dataParam === undefined) {
-            return ''
+            return '';
         }
 
         let arrayData = dataParam.split('-');

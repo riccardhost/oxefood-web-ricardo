@@ -9,10 +9,10 @@ export default function FormProduto() {
     const { state } = useLocation();
     const [idProduto, setIdProduto] = useState();
 
-    const [titulo, setTitulo] = useState();
     const [codigo, setCodigo] = useState();
-    const [descricao, setDescricao] = useState();
     const [idCategoriaProduto, setIdCategoriaProduto] = useState();
+    const [titulo, setTitulo] = useState();
+    const [descricao, setDescricao] = useState();
     const [valorUnitario, setValorUnitario] = useState();
     const [tempoMinEntrega, setTempoMinEntrega] = useState();
     const [tempoMaxEntrega, setTempoMaxEntrega] = useState();
@@ -20,14 +20,14 @@ export default function FormProduto() {
 
     useEffect(() => {
 
-        if (state != null && state.id != null) {
+        if (state !== null && state.id !== null) {
             axios.get("http://localhost:8080/api/produto/" + state.id)
                 .then((response) => {
                     setIdProduto(response.data.id)
-                    setTitulo(response.data.titulo)
                     setCodigo(response.data.codigo)
-                    setDescricao(response.data.descricao)
                     setIdCategoriaProduto(response.data.categoriaProduto.id)
+                    setTitulo(response.data.titulo)
+                    setDescricao(response.data.descricao)
                     setValorUnitario(response.data.valorUnitario)
                     setTempoMinEntrega(response.data.tempoMinEntrega)
                     setTempoMaxEntrega(response.data.tempoMaxEntrega)
@@ -45,7 +45,8 @@ export default function FormProduto() {
     function salvar() {
 
         let produtoRequest = {
-            setIdCategoriaProduto: setIdCategoriaProduto,
+            idProduto: idProduto,
+            idCategoriaProduto: idCategoriaProduto,
             codigo: codigo,
             titulo: titulo,
             descricao: descricao,
@@ -56,12 +57,20 @@ export default function FormProduto() {
 
         if (idProduto != null) { //Alteração:
             axios.put("http://localhost:8080/api/produto/" + idProduto, produtoRequest)
-                .then((response) => { console.log('Produto alterado com sucesso.') })
-                .catch((error) => { console.log('Erro ao alterar um produto.') })
+                .then((response) => {
+                    console.log('Produto alterado com sucesso.', response)
+                })
+                .catch((error) => {
+                    console.log('Erro ao alterar um produto.', error)
+                })
         } else { //Cadastro:
             axios.post("http://localhost:8080/api/produto", produtoRequest)
-                .then((response) => { console.log('Produto cadastrado com sucesso.') })
-                .catch((error) => { console.log('Erro ao incluir o produto.') })
+                .then((response) => {
+                    console.log('Produto cadastrado com sucesso.', response)
+                })
+                .catch((error) => {
+                    console.log('Erro ao incluir o produto.', error)
+                })
         }
     }
 
