@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
+import { ProtectedRoute } from './views/util/ProtectedRoute';
 
 import Home from './views/home/Home';
 import FormCliente from './views/cliente/FormCliente';
@@ -16,13 +17,20 @@ import ListEntregador from './views/entregador/ListEntregador';
 import FormVendas from './views/vendas/FormVendas';
 import ListVendas from './views/vendas/ListVendas';
 
+import Home from './views/home/Home';
+import FormLogin from './views/login/FormLogin';
+
 function Rotas() {
 
     return (
 
         <>
             <Routes>
-                <Route path="/" element={<Home />} />
+
+                <Route path="/" element={ <FormLogin/> } />
+                <Route path="/home" element={ <Home/> } />
+
+                <Route path="/" element={<Home />} /> //remover iten
                 <Route path="form-cliente" element={<FormCliente />} />
                 <Route path="list-cliente" element={<ListCliente />} />
                 <Route path="form-enderecoCliente" element={<FormEnderecoCliente />} />
