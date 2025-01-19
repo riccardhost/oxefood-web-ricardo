@@ -46,12 +46,15 @@ export default function FormLogin () {
                     <center> <Image src='/logo-IFPE.png' size='medium' /> </center>
 
                    <div style={{marginTop: '15%'}}>
+
                         <Header as='h2' color='grey' textAlign='center'>
                             Informe suas credenciais de acesso
                         </Header>
+
                     </div> <br/> <br/>
                         
                     <Form>
+
                         <Segment stacked>
 
                             <Form.Input
@@ -86,6 +89,7 @@ export default function FormLogin () {
                                 onClick={() => entrar()} />
 
                         </Segment>
+
                     </Form>
                         
                     <Message>
@@ -93,7 +97,11 @@ export default function FormLogin () {
                     </Message>
 
                 </Grid.Column>
+
             </Grid>
+
         </div>
+
     )
+    
 }

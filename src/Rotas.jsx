@@ -35,7 +35,6 @@ function Rotas() {
                     </ProtectedRoute>
                 } />
 
-               {/* <Route path="/" element={<Home />} /> //remover iten */}
                 <Route path="form-cliente" element={
                     <ProtectedRoute>
                         <FormCliente />
